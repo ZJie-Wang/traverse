@@ -1,7 +1,7 @@
 {
 	"name": "traverse",
 	"version": "0.1.0",
-	"description": "Browse, preview, and manage vault files from a fast, keyboard-driven Obsidian view.",
+	"description": "Browse, preview, and manage vault files from a fast, keyboard-driven view.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
