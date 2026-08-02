@@ -1,6 +1,6 @@
 # Traverse
 
-Traverse is a keyboard-first file browser for people who want to navigate between files and manage their Obsidian vault without leaving the keyboard. You can move through folders, preview files without opening extra tabs, and stay in one focused view.
+A keyboard-first file browser for people who want to navigate between files and manage their Obsidian vault without leaving the keyboard. You can move through folders, preview files without opening extra tabs, and stay in one focused view.
 
 ## Getting started
 
@@ -54,7 +54,7 @@ Every operation that changes the vault asks for confirmation.
 
 ## Previews
 
-Traverse previews Markdown, images, audio, video, PDFs, text files, folders, and Obsidian Bases.
+You can previews Markdown, images, audio, video, PDFs, text files, folders, and Obsidian Bases.
 
 Press `P` to show or hide the preview for the current Traverse pane. Under **Settings → Traverse**, you can resize the preview card within the right half of the view and decide whether it should automatically hide when the workspace becomes crowded.
 
@@ -75,8 +75,6 @@ From the Obsidian Community plugins directory:
 3. Select **Install**, then **Enable**.
 
 For manual installation, download `main.js`, `manifest.json`, and `styles.css` from a release and place them in `.obsidian/plugins/traverse/` inside your vault.
-
-Traverse is currently available for desktop Obsidian.
 
 ## License
 
