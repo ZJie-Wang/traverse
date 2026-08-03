@@ -1,7 +1,7 @@
 {
 	"id": "traverse",
 	"name": "Traverse",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"minAppVersion": "1.12.0",
 	"description": "Browse, preview, and manage vault files from a fast, keyboard-driven view.",
 	"author": "ZJie-Wang",
