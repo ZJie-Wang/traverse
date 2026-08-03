@@ -372,9 +372,6 @@ class TraverseSettingTab extends PluginSettingTab {
 			.addSlider((slider) => slider
 				.setLimits(PREVIEW_SIZE_MIN, PREVIEW_SIZE_MAX, 1)
 				.setValue(this.plugin.settings.previewCardSize)
-				// Keep numeric feedback on the minimum supported Obsidian version.
-				// eslint-disable-next-line @typescript-eslint/no-deprecated
-				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.previewCardSize = value;
 					await this.plugin.saveSettings();
@@ -385,9 +382,6 @@ class TraverseSettingTab extends PluginSettingTab {
 			.addSlider((slider) => slider
 				.setLimits(PREVIEW_ASPECT_MIN * 100, PREVIEW_ASPECT_MAX * 100, 5)
 				.setValue(Math.round(this.plugin.settings.previewCardAspectRatio * 100))
-				// Keep numeric feedback on the minimum supported Obsidian version.
-				// eslint-disable-next-line @typescript-eslint/no-deprecated
-				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.previewCardAspectRatio = value / 100;
 					await this.plugin.saveSettings();
@@ -409,9 +403,6 @@ class TraverseSettingTab extends PluginSettingTab {
 				.addSlider((slider) => slider
 					.setLimits(1, 4, 1)
 					.setValue(this.plugin.settings.previewGroupThreshold)
-					// Keep numeric feedback on the minimum supported Obsidian version.
-					// eslint-disable-next-line @typescript-eslint/no-deprecated
-					.setDynamicTooltip()
 					.onChange(async (value) => {
 						this.plugin.settings.previewGroupThreshold = value;
 						await this.plugin.saveSettings();

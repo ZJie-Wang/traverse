@@ -14,6 +14,88 @@ export function promptChoice(app: App, title: string, label: string, options: re
 	return new Promise((resolve) => new ChoicePromptModal(app, title, label, options, resolve).open());
 }
 
+export function showShortcutHelp(app: App): void {
+	new ShortcutHelpModal(app).open();
+}
+
+interface ShortcutEntry {
+	keys: string[];
+	description: string;
+}
+
+const SHORTCUT_SECTIONS: { heading: string; entries: ShortcutEntry[] }[] = [
+	{
+		heading: "Navigate",
+		entries: [
+			{ keys: ["j", "k"], description: "Move the selection" },
+			{ keys: ["h", "l"], description: "Parent folder / enter folder" },
+			{ keys: ["Enter"], description: "Open the note or folder" },
+			{ keys: ["gg", "G"], description: "Jump to the first / last item" },
+			{ keys: ["~"], description: "Go to the vault root" },
+			{ keys: ["H", "L"], description: "Back / forward in history" },
+			{ keys: ["q"], description: "Return to the previous note" },
+		],
+	},
+	{
+		heading: "Find",
+		entries: [
+			{ keys: ["/"], description: "Filter this folder" },
+			{ keys: ["s"], description: "Search the vault" },
+			{ keys: ["Escape"], description: "Clear the filter or selection" },
+		],
+	},
+	{
+		heading: "Select",
+		entries: [
+			{ keys: ["Space"], description: "Toggle the current item" },
+			{ keys: ["v"], description: "Select a range" },
+			{ keys: ["Mod + a"], description: "Select everything" },
+		],
+	},
+	{
+		heading: "Files",
+		entries: [
+			{ keys: ["a", "A"], description: "New note / folder" },
+			{ keys: ["C"], description: "New folder note" },
+			{ keys: ["r"], description: "Rename" },
+			{ keys: ["y", "x", "p"], description: "Copy / cut / paste" },
+			{ keys: ["d"], description: "Delete a note or file" },
+			{ keys: ["D"], description: "Delete a folder" },
+			{ keys: ["F"], description: "Open in the file manager" },
+			{ keys: ["T"], description: "Open in the terminal" },
+		],
+	},
+	{
+		heading: "View",
+		entries: [
+			{ keys: ["P"], description: "Toggle the preview" },
+			{ keys: ["J", "K"], description: "Scroll the preview" },
+			{ keys: ["?"], description: "Show this help" },
+		],
+	},
+];
+
+class ShortcutHelpModal extends Modal {
+	onOpen(): void {
+		this.modalEl.addClass("traverse-dialog");
+		this.setTitle("Keyboard shortcuts");
+		const list = this.contentEl.createDiv({ cls: "traverse-shortcuts" });
+		for (const section of SHORTCUT_SECTIONS) {
+			list.createEl("h2", { cls: "traverse-shortcuts-heading", text: section.heading });
+			for (const entry of section.entries) {
+				const row = list.createDiv({ cls: "traverse-shortcut" });
+				const keys = row.createSpan({ cls: "traverse-shortcut-keys" });
+				for (const key of entry.keys) keys.createEl("kbd", { cls: "traverse-shortcut-key", text: key });
+				row.createSpan({ cls: "traverse-shortcut-description", text: entry.description });
+			}
+		}
+	}
+
+	onClose(): void {
+		this.contentEl.empty();
+	}
+}
+
 class TextPromptModal extends Modal {
 	private settled = false;
 	private readonly titleId = `traverse-dialog-title-${nextDialogId++}`;

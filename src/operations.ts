@@ -269,9 +269,11 @@ export class ExplorerOperations {
 	private async deleteRollbackFile(file: TAbstractFile, failures: string[]): Promise<void> {
 		if (this.app.vault.getAbstractFileByPath(file.path) !== file) return;
 		try {
-			// Rollback output is internal and must not leave failed copies in the user's trash.
-			// eslint-disable-next-line obsidianmd/prefer-file-manager-trash-file
-			await this.app.vault.delete(file, true);
+			// Rollback only removes partial output that Traverse itself just created, so
+			// delete it permanently: routing it through FileManager.trashFile would drop a
+			// staging folder in the user's trash on every folder copy.
+			if (file instanceof TFolder) await this.app.vault.adapter.rmdir(file.path, true);
+			else await this.app.vault.adapter.remove(file.path);
 		} catch (error) {
 			failures.push(`${file.path}: ${errorMessage(error)}`);
 		}

@@ -2,7 +2,7 @@ import { App, ItemView, Notice, TAbstractFile, TFile, TFolder, WorkspaceLeaf, pr
 import { createFolderNoteResolver } from "./folder-notes";
 import { normalizeFolderNoteExtensions } from "./folder-note-utils";
 import { iconFor } from "./icons";
-import { confirmAction, promptChoice, promptText } from "./modals";
+import { confirmAction, promptChoice, promptText, showShortcutHelp } from "./modals";
 import { ExplorerOperations, isProtectedPath } from "./operations";
 import { isListingMutationPathRelevant, visibleSelectedPaths } from "./path-utils";
 import { previewCardDimensions } from "./preview-layout";
@@ -588,8 +588,7 @@ export class TraverseView extends ItemView {
 			case "P": this.togglePreview(); break;
 			case "F": void this.host.openFolderInFileManager(this.folder).catch((error) => this.report(error)); break;
 			case "T": void this.host.openFolderInTerminal(this.folder).catch((error) => this.report(error)); break;
-			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			case "?": new Notice("j/k move · h/l parent/enter · / filter · s vault search · q back to note · ~ root · gg/G ends · Space/v select · a/A file/folder · C folder note · r rename · y/x/p copy/cut/paste · d file/note · D folder · F file manager · T terminal · P preview · J/K scroll"); break;
+			case "?": showShortcutHelp(this.app); break;
 		}
 	}
 

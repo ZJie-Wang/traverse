@@ -186,7 +186,7 @@ export class PreviewRenderer {
 	}
 
 	private async render(target: TAbstractFile | null, generation: number): Promise<void> {
-		const staging = this.container.ownerDocument.createElement("div");
+		const staging = this.container.ownerDocument.createDocumentFragment();
 		let child: Component | null = null;
 		if (!target) {
 			staging.createDiv({ cls: "traverse-preview-empty", text: "Nothing to preview" });

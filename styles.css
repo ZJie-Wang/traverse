@@ -451,6 +451,44 @@
 	margin-top: 14px;
 }
 
+.traverse-shortcuts-heading {
+	margin: 12px 0 4px;
+	color: var(--text-muted);
+	font-size: var(--font-ui-small);
+	font-weight: var(--font-semibold);
+}
+
+.traverse-shortcuts-heading:first-child {
+	margin-top: 0;
+}
+
+.traverse-shortcut {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 3px 0;
+}
+
+.traverse-shortcut-keys {
+	display: flex;
+	flex: 0 0 116px;
+	gap: 4px;
+}
+
+.traverse-shortcut-key {
+	padding: 1px 6px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	background: var(--background-secondary);
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-smaller);
+	white-space: nowrap;
+}
+
+.traverse-shortcut-description {
+	color: var(--text-muted);
+}
+
 @media (max-width: 780px) {
 	.traverse-browser {
 		padding-right: 6px;
