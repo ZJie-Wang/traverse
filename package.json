@@ -1,6 +1,6 @@
 {
 	"name": "traverse",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Browse, preview, and manage vault files from a fast, keyboard-driven view.",
 	"main": "main.js",
 	"scripts": {
