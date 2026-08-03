@@ -21,6 +21,7 @@ The keybindings should be intuitive enough for vim users to pick up immediately,
 | `Mod+Enter` | Enter a folder without opening its folder note |
 | `gg` / `G` | Jump to the first / last item |
 | `H` / `L` | Go backward / forward through folder history |
+| `q` | Return to the note that was open before Traverse |
 | `~` | Jump directly to the vault root |
 | `/` | Fuzzy-filter the current folder by name |
 | `s` | Search files and folders across the vault |
@@ -43,7 +44,7 @@ Commands act on the selected items, or on the item under the cursor when nothing
 | `Mod+A` | Select all listed items |
 | `Escape` | Leave the current mode or clear the selection |
 | `a` / `A` | Create a file / folder |
-| `f` | Create a folder note, choosing from the configured extensions |
+| `C` | Create a folder note, choosing from the configured extensions |
 | `r` | Rename |
 | `y` / `x` | Copy / cut |
 | `p` | Paste into the current folder; pasting cut items moves them |

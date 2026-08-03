@@ -38,6 +38,7 @@ export interface ExplorerViewState {
 	folder?: string;
 	cursor?: string;
 	preview?: boolean;
+	returnPath?: string;
 }
 
 export type ClipboardMode = "copy" | "cut";

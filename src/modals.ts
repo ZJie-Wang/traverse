@@ -101,6 +101,11 @@ class ChoicePromptModal extends Modal {
 		const cancel = actions.createEl("button", { text: "Cancel", type: "button" });
 		actions.createEl("button", { cls: "mod-cta", text: "Create", type: "submit" });
 		cancel.addEventListener("click", () => this.finish(null));
+		select.addEventListener("keydown", (event) => {
+			if (event.key !== "Enter" || event.isComposing) return;
+			event.preventDefault();
+			this.finish(select.value || null);
+		});
 		form.addEventListener("submit", (event) => {
 			event.preventDefault();
 			this.finish(select.value || null);

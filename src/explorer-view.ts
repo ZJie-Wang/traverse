@@ -56,6 +56,7 @@ export class TraverseView extends ItemView {
 	private forward: ExplorerViewState[] = [];
 	private pendingState: ExplorerViewState | null = null;
 	private previewOverride: boolean | null = null;
+	private returnPath: string | undefined;
 	private rootEl!: HTMLElement;
 	private pathEl!: HTMLElement;
 	private areasEl!: HTMLElement;
@@ -161,6 +162,7 @@ export class TraverseView extends ItemView {
 			folder: this.folder.path,
 			cursor: this.filterMode === "vault" ? this.filterOriginCursor : this.filtered[this.cursor]?.primary.path,
 			preview: this.previewOverride ?? undefined,
+			returnPath: this.returnPath,
 		};
 	}
 
@@ -260,6 +262,7 @@ export class TraverseView extends ItemView {
 		if (active?.parent) {
 			this.folder = active.parent;
 			this.pendingState = { cursor: active.path };
+			this.returnPath = active.path;
 		}
 	}
 
@@ -269,6 +272,7 @@ export class TraverseView extends ItemView {
 			if (folder instanceof TFolder) this.folder = folder;
 		}
 		this.previewOverride = state.preview ?? null;
+		this.returnPath = state.returnPath;
 		this.updatePreviewVisibility();
 	}
 
@@ -539,11 +543,11 @@ export class TraverseView extends ItemView {
 			|| this.rootEl.ownerDocument.querySelector(".modal-container")) return;
 		const mod = event.metaKey || event.ctrlKey;
 		if (event.altKey || (mod && event.key.toLowerCase() !== "a" && event.key !== "Enter")) return;
-		if (event.shiftKey && !(event.key === "A" || event.key === "G" || event.key === "D" || event.key === "H" || event.key === "L" || event.key === "J" || event.key === "K" || event.key === "P" || event.key === "F" || event.key === "T" || event.key === "?" || event.key === "~")) return;
-		const handled = new Set(["j", "ArrowDown", "k", "ArrowUp", "h", "ArrowLeft", "l", "ArrowRight", "Enter", "g", "G", "~", "/", "s", "Escape", " ", "a", "A", "f", "v", "r", "y", "x", "p", "d", "D", "H", "L", "J", "K", "P", "F", "T", "?"]);
+		if (event.shiftKey && !(event.key === "A" || event.key === "C" || event.key === "G" || event.key === "D" || event.key === "H" || event.key === "L" || event.key === "J" || event.key === "K" || event.key === "P" || event.key === "F" || event.key === "T" || event.key === "?" || event.key === "~")) return;
+		const handled = new Set(["j", "ArrowDown", "k", "ArrowUp", "h", "ArrowLeft", "l", "ArrowRight", "Enter", "g", "G", "~", "/", "s", "Escape", " ", "a", "A", "C", "q", "v", "r", "y", "x", "p", "d", "D", "H", "L", "J", "K", "P", "F", "T", "?"]);
 		if (!handled.has(event.key)) return;
 		event.preventDefault();
-		const operationKeys = new Set(["a", "A", "f", "r", "y", "x", "p", "d", "D", "F", "T"]);
+		const operationKeys = new Set(["a", "A", "C", "r", "y", "x", "p", "d", "D", "F", "T"]);
 		if ((event.repeat || this.busy) && operationKeys.has(event.key)) return;
 		switch (event.key) {
 			case "j": case "ArrowDown": this.moveCursor(1, event.repeat); break;
@@ -568,7 +572,8 @@ export class TraverseView extends ItemView {
 			case " ": this.toggleSelection(); break;
 			case "a": if (mod) this.selectAll(); else void this.createItem(false); break;
 			case "A": if (mod) this.selectAll(); else void this.createItem(true); break;
-			case "f": void this.createFolderNote(); break;
+			case "C": void this.createFolderNote(); break;
+			case "q": void this.returnToPreviousNote().catch((error) => this.report(error)); break;
 			case "v": this.visualSelect(); break;
 			case "r": void this.renameCurrent(); break;
 			case "y": this.stage("copy"); break;
@@ -584,7 +589,7 @@ export class TraverseView extends ItemView {
 			case "F": void this.host.openFolderInFileManager(this.folder).catch((error) => this.report(error)); break;
 			case "T": void this.host.openFolderInTerminal(this.folder).catch((error) => this.report(error)); break;
 			// eslint-disable-next-line obsidianmd/ui/sentence-case
-			case "?": new Notice("j/k move · h/l parent/enter · / filter · s vault search · ~ root · gg/G ends · Space/v select · a/A file/folder · f folder note · r rename · y/x/p copy/cut/paste · d file/note · D folder · F file manager · T terminal · P preview · J/K scroll"); break;
+			case "?": new Notice("j/k move · h/l parent/enter · / filter · s vault search · q back to note · ~ root · gg/G ends · Space/v select · a/A file/folder · C folder note · r rename · y/x/p copy/cut/paste · d file/note · D folder · F file manager · T terminal · P preview · J/K scroll"); break;
 		}
 	}
 
@@ -675,6 +680,15 @@ export class TraverseView extends ItemView {
 			// Skip entries whose folder no longer exists instead of dropping the rest of the history.
 			state = source.pop();
 		}
+	}
+
+	private async returnToPreviousNote(): Promise<void> {
+		const file = this.returnPath ? this.app.vault.getAbstractFileByPath(this.returnPath) : null;
+		if (!(file instanceof TFile)) {
+			new Notice("No previous note to return to");
+			return;
+		}
+		await this.leaf.openFile(file);
 	}
 
 	private async openCurrent(): Promise<void> {
@@ -1001,5 +1015,6 @@ function isExplorerState(state: unknown): state is ExplorerViewState {
 	const value = state as Record<string, unknown>;
 	return (value.folder === undefined || typeof value.folder === "string")
 		&& (value.cursor === undefined || typeof value.cursor === "string")
-		&& (value.preview === undefined || typeof value.preview === "boolean");
+		&& (value.preview === undefined || typeof value.preview === "boolean")
+		&& (value.returnPath === undefined || typeof value.returnPath === "string");
 }

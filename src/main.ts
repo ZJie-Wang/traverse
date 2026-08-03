@@ -188,7 +188,7 @@ export default class TraversePlugin extends Plugin {
 		const owner = activeFile ? getFolderNoteOwner(this.app, activeFile, this.settings) : null;
 		const folder = owner?.parent ?? activeFile?.parent ?? this.app.vault.getRoot();
 		const cursor = owner?.path ?? activeFile?.path;
-		await leaf.setViewState({ type: VIEW_TYPE_TRAVERSE, active: true, state: { folder: folder.path, cursor } });
+		await leaf.setViewState({ type: VIEW_TYPE_TRAVERSE, active: true, state: { folder: folder.path, cursor, returnPath: activeFile?.path } });
 		void this.app.workspace.revealLeaf(leaf);
 	}
 
@@ -208,7 +208,7 @@ export default class TraversePlugin extends Plugin {
 			if (emptyWorkspace && !this.settings.openInEmptyWorkspace) return;
 			const currentFile = !emptyWorkspace && previousFile && this.app.vault.getAbstractFileByPath(previousFile.path) === previousFile ? previousFile : null;
 			const folder = currentFile?.parent ?? this.app.vault.getRoot();
-			void leaf.setViewState({ type: VIEW_TYPE_TRAVERSE, active: true, state: { folder: folder.path, cursor: currentFile?.path } })
+			void leaf.setViewState({ type: VIEW_TYPE_TRAVERSE, active: true, state: { folder: folder.path, cursor: currentFile?.path, returnPath: currentFile?.path } })
 				.catch((error) => this.report(error));
 		});
 	}
