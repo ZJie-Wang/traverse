@@ -1,6 +1,6 @@
 # Traverse
 
-A keyboard-first file browser for people who want to navigate between files and manage their Obsidian vault without leaving the keyboard. You can move through folders, preview files without opening extra tabs, and stay in one focused view.
+A keyboard-first file browser for people who want to navigate between files and manage their Obsidian vault without leaving the keyboard.
 
 ## Getting started
 
